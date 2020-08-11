@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edtName"
+        android:id="@+id/edtfullname"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -40,14 +40,34 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
-
+            android:id="@+id/fullNameTextInputEdiText"
             android:background="@drawable/edittextradius"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:inputType="textEmailAddress"
             android:maxLength="10"
-            android:hint="Email ID"
+            android:hint="Full name"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edtName"
+       android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        app:hintEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/edtfullname"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userNameTextInputEdiText"
+            android:background="@drawable/edittextradius"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="textEmailAddress"
+            android:maxLength="10"
+            android:hint="Name"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -61,7 +81,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
+            android:id="@+id/passwordTextInputEdiText"
             android:background="@drawable/edittextradius"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -91,7 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:onClick="ff"
         android:textColor="#fff"
         android:background="@drawable/buttondarius"
         android:id="@+id/btnsignin"
@@ -164,5 +183,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

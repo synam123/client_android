@@ -1,4 +1,4 @@
-package com.example.ass_androidnetworking_kotlin.UI.login
+package com.fpoly.assignemnt_gd1.ui.register
 
 import android.os.Bundle
 import android.util.Patterns
@@ -6,28 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import com.example.ass_androidnetworking_kotlin.Data.model.User
 import com.example.ass_androidnetworking_kotlin.Data.repository.AppRepository
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.api.AppFactory
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.AppRemoteDataSource
 import com.example.ass_androidnetworking_kotlin.R
-import com.fpoly.assignemnt_gd1.ui.home.HomeFragment
 import com.fpoly.assignemnt_gd1.utils.snack
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LoginFragment : Fragment() {
+class RegisterFragment : Fragment() {
     private lateinit var appRepository: AppRepository
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+        return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,17 +37,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun initView() {
-        registerTextview.setOnClickListener {
-            activity?.run {
-                supportFragmentManager
-                    .beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.main, RegisterFragment.newInstance())
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
-        btnsignin.setOnClickListener {
+        registerButton.setOnClickListener {
             if (validate() > 0) {
                 progressBar.visibility = View.VISIBLE
                 handleData()
@@ -58,43 +47,44 @@ class LoginFragment : Fragment() {
 
     private fun handleData() {
         GlobalScope.launch(Dispatchers.IO) {
-            val baseResponse = appRepository.login(
-                "${userNameTextInputEdiText.text}",
-                "${passwordTextInputEdiText.text}"
+            val baseResponse = appRepository.register(
+                User(
+                    "${fullNameTextInputEdiText.text}",
+                    "${userNameTextInputEdiText.text}",
+                    "${passwordTextInputEdiText.text}",
+                    if (roleCheckBox.isChecked) 1 else 0
+                )
             )
             withContext(Dispatchers.Main) {
                 progressBar.visibility = View.GONE
                 if (baseResponse.statusCode == 200) {
                     view?.snack(message = baseResponse.messages)
-                    activity?.run {
-                        supportFragmentManager
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main, HomeFragment.newInstance())
-                            .commit()
-                    }
                 } else view?.snack(message = baseResponse.messages)
             }
         }
     }
 
     private fun validate(): Int {
+        if (fullNameTextInputEdiText.text.isNullOrEmpty()) {
+            fullNameTextInputLayout.error = "Do not empty full name"
+            return 0
+        } else fullNameTextInputLayout.error = null
         if (userNameTextInputEdiText.text.isNullOrEmpty()) {
-            edtName.error = "Do not empty user name"
+            userNameTextInputLayout.error = "Do not empty user name"
             return 0
-        } else edtName.error = null
+        } else userNameTextInputLayout.error = null
         if (!Patterns.EMAIL_ADDRESS.matcher(userNameTextInputEdiText.text.toString()).matches()) {
-            edtName.error = "Do not match email"
+            userNameTextInputLayout.error = "Do not match email"
             return 0
-        } else edtName.error = null
+        } else userNameTextInputLayout.error = null
         if (passwordTextInputEdiText.text.isNullOrEmpty()) {
-            edtPass.error = "Do not empty password"
+            passwordTextInputLayout.error = "Do not empty password"
             return 0
-        } else edtPass.error = null
+        } else passwordTextInputLayout.error = null
         return 1
     }
 
     companion object {
-        fun newInstance() = LoginFragment()
+        fun newInstance() = RegisterFragment()
     }
 }
