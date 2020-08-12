@@ -3,16 +3,22 @@ package com.example.ass_androidnetworking_kotlin.Data.source.remote.api
 import com.example.ass_androidnetworking_kotlin.Data.model.User
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.BaseResponse
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.LoginResponse
+import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.ProductsResponse
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.RegisterReponse
-import retrofit2.http.Field
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AppService {
-    @POST("")
+    @FormUrlEncoded
+    @POST("/api/user/login")
     suspend fun login(
-        @Field("usser_name") userName:String,
-        @Field ("pass_word") passWord:String
-    ) : BaseResponse<LoginResponse>
-    @POST("")
-    suspend fun register(Users:User): BaseResponse<RegisterReponse>
+        @Field("user_name") userName: String,
+        @Field("password") password: String
+    ): BaseResponse<LoginResponse>
+
+
+    @POST("/api/user/register")
+    suspend fun register(@Body Users: User): BaseResponse<RegisterReponse>
+
+    @GET("/api/product/all")
+    suspend fun getProducts(): BaseResponse<ProductsResponse>
 }

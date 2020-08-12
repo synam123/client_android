@@ -40,12 +40,10 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
+            android:id="@+id/fullNameTextInputEdiText"
             android:background="@drawable/edittextradius"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:inputType="textEmailAddress"
-            android:maxLength="10"
             android:hint="Full name"
             />
 
@@ -60,13 +58,12 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
+            android:id="@+id/userNameTextInputEdiText"
             android:background="@drawable/edittextradius"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:inputType="textEmailAddress"
-            android:maxLength="10"
-            android:hint="Email ID"
+            android:inputType="text"
+            android:hint="Email"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -79,12 +76,11 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/confirm_pass"
+            android:id="@+id/passwordTextInputEdiText"
             android:background="@drawable/edittextradius"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:inputType="textEmailAddress"
-            android:maxLength="10"
+            android:inputType="textPassword"
             android:hint="Password"
             />
 
@@ -120,7 +116,9 @@
         app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="132dp"
@@ -132,13 +130,15 @@
     <ImageView
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="184dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/icongg"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@id/registerButton" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -146,25 +146,42 @@
         android:src="@drawable/iconsky"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
     <TextView
-        android:textColor="#000"
         android:id="@+id/hi"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="90dp"
-        android:textSize="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:text="I'am already a member,"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:textColor="#E91E63"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="5dp"
+        android:textColor="#000"
         android:textSize="14dp"
-        android:text="Sign in"
-        app:layout_constraintLeft_toRightOf="@id/hi"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/loginTextview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="64dp"
+        android:text="Sign in"
+        android:textColor="#E91E63"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/hi" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

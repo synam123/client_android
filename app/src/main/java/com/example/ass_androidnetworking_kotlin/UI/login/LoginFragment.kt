@@ -11,9 +11,11 @@ import com.example.ass_androidnetworking_kotlin.Data.repository.AppRepository
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.api.AppFactory
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.AppRemoteDataSource
 import com.example.ass_androidnetworking_kotlin.R
+
 import com.fpoly.assignemnt_gd1.ui.home.HomeFragment
+import com.fpoly.assignemnt_gd1.ui.register.RegisterFragment
 import com.fpoly.assignemnt_gd1.utils.snack
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,13 +29,13 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         appRepository =
-            AppRepository.getInstance(AppRemoteDataSource.getInstace(AppFactory.instance))
+            AppRepository.getInstance(AppRemoteDataSource.getInstance(AppFactory.instance()))
         initView()
     }
 
@@ -80,17 +82,17 @@ class LoginFragment : Fragment() {
 
     private fun validate(): Int {
         if (userNameTextInputEdiText.text.isNullOrEmpty()) {
-            edtName.error = "Do not empty user name"
+            userNameTextInputLayout.error = "Do not empty user name"
             return 0
-        } else edtName.error = null
+        } else userNameTextInputLayout.error = null
         if (!Patterns.EMAIL_ADDRESS.matcher(userNameTextInputEdiText.text.toString()).matches()) {
-            edtName.error = "Do not match email"
+            userNameTextInputLayout.error = "Do not match email"
             return 0
-        } else edtName.error = null
+        } else userNameTextInputLayout.error = null
         if (passwordTextInputEdiText.text.isNullOrEmpty()) {
-            edtPass.error = "Do not empty password"
+            passwordTextInputLayout.error = "Do not empty password"
             return 0
-        } else edtPass.error = null
+        } else passwordTextInputLayout.error = null
         return 1
     }
 

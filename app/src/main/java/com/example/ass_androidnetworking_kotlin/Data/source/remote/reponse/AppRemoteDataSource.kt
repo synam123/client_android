@@ -16,11 +16,17 @@ class AppRemoteDataSource private constructor(private val appService: AppService
     override suspend fun register(user: User): BaseResponse<RegisterReponse>{
         return appService.register(user)
     }
-    companion object {
+
+    override suspend fun getProducts(): BaseResponse<ProductsResponse> {
+        return appService.getProducts()
+    }
+
+    companion object{
         private var INSTANCE: AppRemoteDataSource?= null
-        fun getInstace(appService: AppService): AppRemoteDataSource =
+        fun getInstance(appService: AppService): AppRemoteDataSource =
             INSTANCE ?: synchronized(this){
                 INSTANCE ?: AppRemoteDataSource(appService).also { INSTANCE = it }
             }
+
     }
 }

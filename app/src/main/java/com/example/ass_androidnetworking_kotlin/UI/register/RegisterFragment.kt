@@ -5,15 +5,23 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.ass_androidnetworking_kotlin.Data.model.User
 import com.example.ass_androidnetworking_kotlin.Data.repository.AppRepository
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.api.AppFactory
 import com.example.ass_androidnetworking_kotlin.Data.source.remote.reponse.AppRemoteDataSource
 import com.example.ass_androidnetworking_kotlin.R
+import com.example.ass_androidnetworking_kotlin.UI.login.LoginFragment
 import com.fpoly.assignemnt_gd1.utils.snack
-import kotlinx.android.synthetic.main.fragment_sign_in.*
-import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.fragment_register.passwordTextInputEdiText
+import kotlinx.android.synthetic.main.fragment_register.passwordTextInputLayout
+import kotlinx.android.synthetic.main.fragment_register.progressBar
+import kotlinx.android.synthetic.main.fragment_register.userNameTextInputEdiText
+import kotlinx.android.synthetic.main.fragment_register.userNameTextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -21,22 +29,36 @@ import kotlinx.coroutines.withContext
 
 class RegisterFragment : Fragment() {
     private lateinit var appRepository: AppRepository
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        appRepository =
+            AppRepository.getInstance(AppRemoteDataSource.getInstance(AppFactory.instance()))
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        appRepository =
-            AppRepository.getInstance(AppRemoteDataSource.getInstace(AppFactory.instance))
         initView()
     }
 
     private fun initView() {
+            loginTextview.setOnClickListener {
+                activity?.run {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.main, RegisterFragment.newInstancez())
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
         registerButton.setOnClickListener {
             if (validate() > 0) {
                 progressBar.visibility = View.VISIBLE
@@ -64,6 +86,8 @@ class RegisterFragment : Fragment() {
         }
     }
 
+
+
     private fun validate(): Int {
         if (fullNameTextInputEdiText.text.isNullOrEmpty()) {
             fullNameTextInputLayout.error = "Do not empty full name"
@@ -82,9 +106,11 @@ class RegisterFragment : Fragment() {
             return 0
         } else passwordTextInputLayout.error = null
         return 1
+            Toast.makeText(context, "Signup Success", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
         fun newInstance() = RegisterFragment()
+        fun newInstancez() = LoginFragment()
     }
 }

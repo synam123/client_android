@@ -8,21 +8,21 @@ import java.util.concurrent.TimeUnit
 
 class AppFactory {
     companion object{
-        val instance: AppService by lazy {
-            retrofitBuilder.create(AppService::class.java)
+       fun instance (): AppService  {
+          return  retrofitBuilder().create(AppService::class.java)
         }
         private  const val TIME_OUT =15000L
-        private val client = OkHttpClient.Builder()
-            .readTimeout(TIME_OUT, TimeUnit.MICROSECONDS)
-            .writeTimeout(TIME_OUT, TimeUnit.MICROSECONDS)
-            .connectTimeout(TIME_OUT, TimeUnit.MICROSECONDS)
+        private fun client() = OkHttpClient.Builder()
+            .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .retryOnConnectionFailure(true)
             .addInterceptor(HttpLoggingInterceptor().setLevel((HttpLoggingInterceptor.Level.BODY)))
             .build()
-    private val retrofitBuilder= Retrofit.Builder()
-        .baseUrl("https://www.google.com.vn")
+    private fun retrofitBuilder()= Retrofit.Builder()
+        .baseUrl("http://192.168.1.9:5000")
         .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
+        .client(client())
         .build()
     }
 
